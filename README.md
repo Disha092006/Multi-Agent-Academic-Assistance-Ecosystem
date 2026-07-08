@@ -1,5 +1,4 @@
-﻿# Multi-Agent-Academic-Assistance-Ecosystem
-# Multi-Agent Academic Assistance Ecosystem
+﻿**# Multi-Agent Academic Assistance Ecosystem**
 
 A multi-agent AI system that turns study material into structured notes, a scored interactive quiz, and a personalized revision plan - or answers direct questions about it - using specialized AI agents built with CrewAI.
 
