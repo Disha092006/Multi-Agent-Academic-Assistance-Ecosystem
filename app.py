@@ -1,8 +1,3 @@
-"""
-Phase 8: Flask backend, now passing the user's chosen model (Llama 3.1
-or DeepSeek R1, both via Groq) through to the pipeline and Q&A function.
-"""
-
 import os
 import time
 import uuid
