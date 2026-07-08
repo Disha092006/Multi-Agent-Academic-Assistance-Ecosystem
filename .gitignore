@@ -1,0 +1,30 @@
+# Environment variables (contains your API keys - NEVER commit this)
+.env
+
+# Python virtual environment
+venv/
+env/
+ENV/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Uploaded files (user data, not part of the actual project code)
+uploads/*
+!uploads/.gitkeep
+
+# VS Code settings (optional - personal editor config, not project code)
+.vscode/
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Flask instance folder (if used later)
+instance/
+
+# Logs
+*.log

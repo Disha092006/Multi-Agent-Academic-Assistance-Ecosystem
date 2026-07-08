@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Academic Assistant | Multi-Agent Study Companion</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="page">
+  <header class="hero">
+    <div class="hero-badge">Multi-Agent AI · Powered by Llama 3.1 &amp; OpenRouter</div>
+    <h1>Your Academic Assistant</h1>
+    <p class="subtitle">Upload any study material and choose what you need: notes, a quiz, a revision plan, or ask questions directly.</p>
+  </header>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash-box">
+        {% for message in messages %}
+          <p>⚠️ {{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="mode-tabs">
+    <button class="mode-tab" data-mode="ask">Ask a Question</button>
+    <button class="mode-tab active" data-mode="notes">Notes</button>
+    <button class="mode-tab" data-mode="quiz">Quiz</button>
+    <button class="mode-tab" data-mode="revision">Revision Plan</button>
+  </div>
+
+  <div class="card" id="generate-mode-card">
+    <form id="upload-form" action="{{ url_for('process') }}" method="POST" enctype="multipart/form-data">
+
+      <label class="dropzone" id="dropzone">
+        <input type="file" name="pdf_file" id="pdf_file" accept=".pdf,.docx,.txt,.jpg,.jpeg,.png" hidden>
+        <div class="dropzone-icon">📄</div>
+        <div class="dropzone-text">
+          <strong id="dropzone-label">Drag & drop your file here</strong>
+          <span>PDF, Word, text, or image (.jpg/.png) &middot; or click to browse</span>
+        </div>
+      </label>
+
+      <p class="agent-note" id="generate-mode-description">Generates structured notes from your document.</p>
+
+      <div class="model-select-row">
+        <label for="model_choice" class="model-select-label">AI Model:</label>
+        <select name="model_choice" id="model_choice" class="model-select">
+          {% for key, info in model_options.items() %}
+          <option value="{{ key }}" {% if key == default_model %}selected{% endif %}>{{ info.label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <input type="checkbox" name="notes" id="hidden-notes" checked style="display:none;">
+      <input type="checkbox" name="quiz" id="hidden-quiz" style="display:none;">
+      <input type="checkbox" name="revision" id="hidden-revision" style="display:none;">
+
+      <button type="submit" class="submit-btn">
+        <span id="generate-btn-label">Generate Notes</span>
+        <span class="arrow">→</span>
+      </button>
+    </form>
+  </div>
+
+  <div class="card" id="ask-mode-card" style="display: none;">
+    <form id="ask-upload-form" action="{{ url_for('ask_upload') }}" method="POST" enctype="multipart/form-data">
+
+      <label class="dropzone" id="ask-dropzone">
+        <input type="file" name="qa_file" id="qa_file" accept=".pdf,.docx,.txt,.jpg,.jpeg,.png" hidden>
+        <div class="dropzone-icon">💬</div>
+        <div class="dropzone-text">
+          <strong id="ask-dropzone-label">Drag & drop your file here</strong>
+          <span>PDF, Word, text, or image &middot; goes straight to Q&amp;A chat</span>
+        </div>
+      </label>
+
+      <button type="submit" class="submit-btn">
+        <span>Start Asking Questions</span>
+        <span class="arrow">→</span>
+      </button>
+    </form>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-agents">
+      <div class="footer-agent"><span class="dot dot-notes"></span> Notes Agent</div>
+      <div class="footer-agent"><span class="dot dot-quiz"></span> Quiz Agent</div>
+      <div class="footer-agent"><span class="dot dot-revision"></span> Revision Agent</div>
+    </div>
+    <p>Built with CrewAI · LangChain · Llama 3.1 (Groq) / GPT-OSS 20B (OpenRouter)</p>
+  </footer>
+</div>
+
+<!-- Loading overlay shown while agents are working -->
+<div id="loading-overlay" class="loading-overlay">
+  <div class="loading-card">
+    <div class="spinner"></div>
+    <h2>Your AI agents are working...</h2>
+    <p id="loading-message">Notes Agent is reading your document...</p>
+    <div class="progress-track">
+      <div class="progress-fill"></div>
+    </div>
+    <p class="loading-hint">This can take a couple of minutes on a local machine — thanks for your patience!</p>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
