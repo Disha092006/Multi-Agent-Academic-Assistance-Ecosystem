@@ -1,17 +1,3 @@
-"""
-Phase 8 (v3): Dual-provider setup.
-
-- Llama 3.1 -> Groq (fast, confirmed reliable)
-- DeepSeek R1 -> OpenRouter (Groq stopped hosting DeepSeek entirely)
-
-Both providers use an OpenAI-compatible API format, so we use the same
-ChatOpenAI class for both - just pointing at a different base_url and
-api_key depending on which model is selected. This also avoids a
-package version conflict we hit earlier with the dedicated
-langchain-groq package, since ChatOpenAI was already installed as a
-CrewAI dependency.
-"""
-
 import os
 import json
 import re
@@ -33,7 +19,7 @@ MODEL_OPTIONS = {
         "base_url": GROQ_BASE_URL,
         "env_key": "GROQ_API_KEY",
     },
-    "deepseek": {
+    "GPT-OSS 20B": {
         "id": "openai/gpt-oss-20b:free",
         "label": "GPT-OSS 20B (via OpenRouter)",
         "base_url": OPENROUTER_BASE_URL,
