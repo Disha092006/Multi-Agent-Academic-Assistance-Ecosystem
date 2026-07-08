@@ -10,3 +10,4 @@ pytesseract
 Pillow
 PyMuPDF
 python-docx
+setuptools>=70.0.0
